@@ -1,18 +1,18 @@
 /*
-极速版抢卷
+8块抢卷
 ============Quantumultx===============
 [task_local]
-#8毛抢卷
-59 15 * * * https://raw.githubusercontent.com/444444/KR/main/jd_10_4.js, tag=极速版抢卷, enabled=true
+#8块抢卷
+58 59 19 * * * https://raw.githubusercontent.com/444444/KR/main/jd_10_4.js, tag=8块抢卷, enabled=true
 ================Loon==============
 [Script]
-cron "59 15 * * * " script-path=https://raw.githubusercontent.com/444444/KR/main/jd_10_4.js,tag=极速版抢卷
+cron "58 59 19 * * * " script-path=https://raw.githubusercontent.com/444444/KR/main/jd_10_4.js,tag=8块抢卷
 ===============Surge=================
 8毛抢卷 = type=cron,cronexp="58 59 7,10,13,15,19 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/444444/KR/main/jd_10_4.js
 ============小火箭=========
 8毛抢卷 = type=cron,script-path=https://raw.githubusercontent.com/444444/KR/main/jd_10_4.js, cronexpr="58 59 7,10,13,15,19 * * *", timeout=3600, enable=true
  */
-const $ = new Env('8毛');
+const $ = new Env('8块抢卷');
 const moment = require('moment');
 //进容器安装依赖： npm install -g moment
 const notify = $.isNode() ? require('./sendNotify') : '';
