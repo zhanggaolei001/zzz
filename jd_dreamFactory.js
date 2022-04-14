@@ -138,8 +138,7 @@ if ($.isNode()) {
             await JoinTuan(item);
             await $.wait(1000);
           }
-        }
-        if ($.canHelp) await joinLeaderTuan(); //参团
+        } 
       }
     }
   }
@@ -1271,9 +1270,7 @@ async function joinLeaderTuan() {
   let res = [],
     res2 = [];
   if (!res)
-    res = await updateTuanIdsCDN(
-      "https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_updateFacffftoryTuanId.json"
-    );
+ 
   $.authorTuanIds = [
     ...((res && res.tuanIds) || []),
     ...((res2 && res2.tuanIds) || []),
@@ -1539,56 +1536,7 @@ function tuanAward(activeId, tuanId, isTuanLeader = true) {
     });
   });
 }
-
-function updateTuanIdsCDN(
-  url = "https://raw.githubusercontent.com/gitupdate/updateTeam/master/ffjd_updateFactoryTuanId.json"
-) {
-  return new Promise(async (resolve) => {
-    console.log(url);
-    if (url == "http://cdn.annnibb.me/factory.json") {
-      console.log(url);
-    }
-    const options = {
-      url: `${url}?${new Date()}`,
-      timeout: 10000,
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88",
-      },
-    };
-    if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
-      const tunnel = require("tunnel");
-      const agent = {
-        https: tunnel.httpsOverHttp({
-          proxy: {
-            host: process.env.TG_PROXY_HOST,
-            port: process.env.TG_PROXY_PORT * 1,
-          },
-        }),
-      };
-      Object.assign(options, { agent });
-    }
-    $.get(options, (err, resp, data) => {
-      try {
-        if (err) {
-          // console.log(`${JSON.stringify(err)}`)
-        } else {
-          if (safeGet(data)) {
-            console.log(data);
-            $.tuanConfigs = data = JSON.parse(data);
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve(data);
-      }
-    });
-    await $.wait(20000);
-    resolve();
-  });
-}
-
+ 
 //商品可兑换时的通知
 async function exchangeProNotify() {
   await GetShelvesList();
@@ -1745,15 +1693,12 @@ function requireConfig() {
       ? process.env.TUAN_ACTIVEID || tuanActiveId
       : $.getdata("tuanActiveId") || tuanActiveId;
     if (!tuanActiveId) {
-      await updateTuanIdsCDN();
+       
       if ($.tuanConfigs && $.tuanConfigs["tuanActiveId"]) {
         tuanActiveId = $.tuanConfigs["tuanActiveId"];
         console.log(`拼团活动ID: 获取成功 ${tuanActiveId}\n`);
       } else {
-        if (!$.tuanConfigs) {
-          await updateTuanIdsCDN(
-            "https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_updateFactoryTuanId.json"
-          );
+        if (!$.tuanConfigs) { 
           if ($.tuanConfigs && $.tuanConfigs["tuanActiveId"]) {
             tuanActiveId = $.tuanConfigs["tuanActiveId"];
             console.log(`拼团活动ID: 获取成功 ${tuanActiveId}\n`);
