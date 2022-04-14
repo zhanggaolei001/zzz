@@ -14,7 +14,7 @@
 const $ = new Env('京喜工厂开团');
 const JD_API_HOST = 'https://m.jingxi.com';
 const notify = $.isNode() ? require('./sendNotify') : '';
-const jdCookieNode = $.isNode() ? require('./jdCookieAll.js') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let openTuanCK = '1';
 const args = process.argv.slice(2)
 if (args[0]) {

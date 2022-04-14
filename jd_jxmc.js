@@ -9,7 +9,7 @@
 // prettier-ignore
 
 const $ = new Env('惊喜牧场');
-const jdCookieNode = $.isNode() ? require('./jdCookieAll.js') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 const JXUserAgent = $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_USER_AGENT : ``) : ``;
 const ByType = $.isNode() ? (process.env.BYTYPE ? process.env.BYTYPE : `1`) : `1`;

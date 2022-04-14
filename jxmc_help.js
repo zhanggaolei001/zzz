@@ -12,7 +12,7 @@ cron 23 0-23/3 * * * jd_jxmc_help.js
 });
 const $ = new Env('惊喜牧场_助力');
 const notify = $.isNode() ? require('./sendNotify') : '';
-const jdCookieNode = $.isNode() ? require('./jdCookieAll.js') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //惊喜APP的UA。领取助力任务奖励需要惊喜APP的UA,环境变量：JX_USER_AGENT，有能力的可以填上自己的UA
 const JXUserAgent =  $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_USER_AGENT : ``):``;
 $.inviteCodeList = [];
