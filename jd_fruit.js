@@ -353,11 +353,7 @@ async function predictionFruit() {
 }
 //浇水十次
 async function doTenWater() {
-  try {
-    jdFruitBeanCard = $.getdata('jdFruitBeanCard') ? $.getdata('jdFruitBeanCard') : jdFruitBeanCard;
-    if ($.isNode() && process.env.FRUIT_BEAN_CARD) {
-      jdFruitBeanCard = process.env.FRUIT_BEAN_CARD;
-    }
+  try { 
     await myCardInfoForFarm();
     const {
       fastCard,
