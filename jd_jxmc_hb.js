@@ -40,7 +40,7 @@ let token ='';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < cookiesArr.length; i++) {
     $.index = i + 1;
     $.cookie = cookiesArr[i];
     $.isLogin = true;
@@ -62,7 +62,7 @@ let token ='';
   }
   if (process.env.JXMC_RP != 'false' && flag_hb) {
   console.log('\n##################开始账号内互助(红包)#################\n');
-  await getShareCode('jxmc_hb.json')
+  
   $.inviteCodeList_hb = [...($.inviteCodeList_hb || []), ...($.shareCode || [])]
   for(let i = 0;i<$.helpCkList.length;i++){
     $.can_help = true
