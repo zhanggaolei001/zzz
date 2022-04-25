@@ -157,19 +157,21 @@ if ($.isNode()) {
 async function jdDreamFactory() {
   try {
     await userInfo();
-    // await QueryFriendList();//查询今日招工情况以及剩余助力次数
+    await QueryFriendList(); //查询今日招工情况以及剩余助力次数
  
-    // if (!$.unActive) return 
-    // await getUserElectricity();
-    // await taskList();
-    // await investElectric();
-    // await QueryHireReward();//收取招工电力
-    // await PickUp();//收取自家的地下零件
-    // await stealFriend();
-    // await tuanActivity();
-    // await QueryAllTuan();
-    // await exchangeProNotify();
-    // await showMsg();
+    if (!$.unActive) return; 
+    await getUserElectricity();
+    await taskList();
+    if (jindu <= 0.95) {
+      await investElectric();
+    }
+    await QueryHireReward(); //收取招工电力
+    await PickUp(); //收取自家的地下零件
+    await stealFriend();
+    await tuanActivity();
+    await QueryAllTuan();
+    await exchangeProNotify();
+    await showMsg();
   } catch (e) {
     $.logErr(e)
   }
