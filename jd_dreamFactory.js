@@ -40,6 +40,7 @@ const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
 let cookiesArr = [], cookie = '', message = '', allMessage = '';
 const inviteCodes = [''];
 let myInviteCode;
+let jindu=0;
 $.newShareCodes = []
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
@@ -156,20 +157,21 @@ if ($.isNode()) {
 
 async function jdDreamFactory() {
   try {
+    jindu=0;
     await userInfo();
     await QueryFriendList(); //查询今日招工情况以及剩余助力次数
  
     if (!$.unActive) return; 
     await getUserElectricity();
     await taskList();
-    if (jindu <= 0.95) {
+    if (jindu <= 0.99) {
       await investElectric();
     }
     await QueryHireReward(); //收取招工电力
     await PickUp(); //收取自家的地下零件
     await stealFriend();
-    await tuanActivity();
-    await QueryAllTuan();
+    // await tuanActivity();
+    // await QueryAllTuan();
     await exchangeProNotify();
     await showMsg();
   } catch (e) {
@@ -628,6 +630,7 @@ function userInfo() {
                 console.log(`已投入电力：${production.investedElectric}`);
                 console.log(`所需电力：${production.needElectric}`);
                 console.log(`生产进度：${((production.investedElectric / production.needElectric) * 100).toFixed(2)}%`);
+                jindu=(production.investedElectric / production.needElectric) ;
                 message += `【京东账号${$.index}】${$.nickName}\n`
                 message += `【生产商品】${$.productName}\n`;
                 message += `【当前等级】${data.user.userIdentity} ${data.user.currentLevel}\n`;
