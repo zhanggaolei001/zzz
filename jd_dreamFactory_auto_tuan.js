@@ -99,7 +99,7 @@ async function jdDreamFactoryTuan() {
         }
         $.electric=0;
         await userInfo();
-        if ($.index==1||$.electric<5000000) { 
+        if ($.electric<5000000) { 
             
              await tuanActivity();
         }
