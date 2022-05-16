@@ -46,7 +46,7 @@ async function join() {
       for (let i = 0; i < 3; i++) {
         try {
           log = await getLog()
-          res = await api('h5launch', { followShop: 0, random: random(8), log: log, sceneid: 'JLHBhPageh5' })
+          res = await api('h5launch', { followShop: 0, random:log.random, log: log.log, sceneid: 'JLHBhPageh5' })
           console.log('活动初始化：', res.data.result.statusDesc)
           if (res.rtn_code === 0) {
             break
@@ -108,7 +108,7 @@ async function open(autoOpen: number) {
         if (t.packetStatus === 1) {
           if (autoOpen) {
             log = await getLog()
-            res = await api('h5receiveRedpacketAll', { random: random(8), log: log, sceneid: 'JLHBhPageh5' })
+            res = await api('h5receiveRedpacketAll', { random: log.random , log: log.log, sceneid: 'JLHBhPageh5' })
             console.log('打开成功', parseFloat(res.data.result.discount))
             if (!min.includes(parseFloat(res.data.result.discount))) {
               await sendNotify('锦鲤红包', `账号${index + 1} ${UserName}\n${t.packetAmount}`)
@@ -150,7 +150,7 @@ async function help() {
           for (let i = 0; i < 5; i++) {
             if (success) break
             log = await getLog()
-            res = await api('jinli_h5assist', { "redPacketId": code, "followShop": 0, random: random(8), log: log, sceneid: 'JLHBhPageh5' })
+            res = await api('jinli_h5assist', { "redPacketId": code, "followShop": 0, random: log.random, log: log.log, sceneid: 'JLHBhPageh5' })
             if (res.rtn_code !== 0) {
               console.log('help error', res.rtn_code)
               await wait(5000)
@@ -196,6 +196,6 @@ async function api(fn: string, body: object) {
 }
 
 async function getLog() {
-  let data = await get(`http://139.196.126.180:5701/log`)
+  let data = await get(`http://log.creamk.eu.org/log`)
   return data
 }
