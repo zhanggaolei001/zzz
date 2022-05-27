@@ -37,7 +37,7 @@ pin3@&@不清空👉该pin不清空
 */
 let jdSignUrl = 'https://api.zhezhe.cf/jd/sign'
 let jdPandaToken = ''
-let cleancartRun = 'false'
+let cleancartRun = 'true'
 let cleancartProducts = ''
 let lnrequesttimes=0
 const $ = new Env('清空购物车_Panda');
