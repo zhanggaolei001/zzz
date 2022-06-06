@@ -5,6 +5,7 @@ cron 0 10,6,20 1-20 6 * jd_618_red.js
 const $ = new Env('618红包');
 $.flCode = $.isNode() ? (process.env.FLCODE ? process.env.FLCODE : '') : '';
 const jdCookieNode = require('./jdCookie.js');
+const codes = ['lwILcSI','lIsa3d6']
 let cookiesArr = [];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -43,8 +44,7 @@ let appId, fingerprint, token, enCryptMethodJD;
     }
 })().catch((e) => { $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '') }).finally(() => { $.done(); })
 
-async function main(ck, code = 'lIsa3d6') {
-    const codes = ['lwILcSI','lIsa3d6']
+async function main(ck, code = 'lIsa3d6') { 
     code = $.flCode ? $.flCode : codes[random(0, codes.length)]
     // console.log(code)
     let userName = decodeURIComponent(ck.match(/pt_pin=([^; ]+)(?=;?)/) && ck.match(/pt_pin=([^; ]+)(?=;?)/)[1])
