@@ -49,6 +49,34 @@ let num;
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
+
+
+    for (let i = 0; i < cookiesArr.length; i++) {
+        if (cookiesArr[i]) {
+            cookie = cookiesArr[i];
+            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+            $.index = i + 1;
+            $.isLogin = true;
+            $.nickName = '';
+            await TotalBean();
+            console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
+            if (!$.isLogin) {
+                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+
+                if ($.isNode()) {
+                    //await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+                }
+                continue
+            }
+            message = '';
+            subTitle = '';
+            option = {};
+            //await shareCodesFormat();
+            await jdPlantBean();
+            await showMsg();
+        }
+    } 
+
     for (let i = 0; i < cookiesArr.length / 3; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -91,32 +119,6 @@ let num;
           
         } 
     } 
-
-    for (let i = 0; i < cookiesArr.length; i++) {
-        if (cookiesArr[i]) {
-            cookie = cookiesArr[i];
-            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-            $.index = i + 1;
-            $.isLogin = true;
-            $.nickName = '';
-            await TotalBean();
-            console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
-            if (!$.isLogin) {
-                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
-
-                if ($.isNode()) {
-                    //await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-                }
-                continue
-            }
-            message = '';
-            subTitle = '';
-            option = {};
-            //await shareCodesFormat();
-            await jdPlantBean();
-            await showMsg();
-        }
-    } 
    
 })().catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -152,7 +154,7 @@ async function jdPlantBean() {
             currentRoundId = roundList[num].roundId;//本期的roundId
             lastRoundId = roundList[num - 1].roundId;//上期的roundId
             awardState = roundList[num - 1].awardState;
-            $.taskList = $.plantBeanIndexResult.data.taskList;
+            $.taskList = $.plantBeanIndexResult.data?.taskList;
             subTitle = `【京东昵称】${$.plantBeanIndexResult.data.plantUserInfo.plantNickName}`;
             message += `【上期时间】${roundList[num - 1].dateDesc.replace('上期 ', '')}\n`;
             message += `【上期成长值】${roundList[num - 1].growth}\n`;
@@ -430,7 +432,7 @@ async function doTask() {
 function showTaskProcess() {
     return new Promise(async resolve => {
         await plantBeanIndex();
-        $.taskList = $.plantBeanIndexResult.data.taskList;
+        $.taskList = $.plantBeanIndexResult.data?.taskList;
         if ($.taskList && $.taskList.length > 0) {
             console.log("     任务   进度");
             for (let item of $.taskList) {
