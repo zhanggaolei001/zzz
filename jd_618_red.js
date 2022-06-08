@@ -3,6 +3,7 @@
 cron 0 10,6,20 1-20 6 * jd_618_red.js
 * */
 const $ = new Env('618红包');
+const args = process.argv.slice(2);  
 $.flCode = $.isNode() ? (process.env.FLCODE ? process.env.FLCODE : '') : '';
 const jdCookieNode = require('./jdCookie.js');
 const codes = ['lwILcSI','lIsa3d6']
@@ -30,24 +31,24 @@ let appId, fingerprint, token, enCryptMethodJD;
     fingerprint = getRandomArrayElements(fglist, 1)[0];
     await requestAlgo();
     if ($.flCode !== '9999') {
-        $.show = false;
+        $.show = true;
     } else {
         $.show = true;
-    }
-    let runCK = [];
+    } 
     for (let i = 0; i < cookiesArr.length; i += 1) {
-        runCK.push(cookiesArr.slice(i, i + 1));
-    }
-    for (let i = 0; i < runCK.length; i++) {
-        const promiseArr = runCK[i].map((ck, index) => main(ck));
-        await Promise.all(promiseArr);
-    }
+        if (args[0] && i != args[0]) {
+            continue;
+          } 
+        await  main(cookiesArr[i]) 
+    } 
 })().catch((e) => { $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '') }).finally(() => { $.done(); })
 
 async function main(ck, code = 'lIsa3d6') { 
     code = $.flCode ? $.flCode : codes[random(0, codes.length)]
+    console.log("当前code:"+code);
     // console.log(code)
     let userName = decodeURIComponent(ck.match(/pt_pin=([^; ]+)(?=;?)/) && ck.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+    console.log(userName);
     let jfInfo = await getInfoByUrl($, ck, code);
     ck = jfInfo['ck'];
     let url2 = jfInfo['url'];
