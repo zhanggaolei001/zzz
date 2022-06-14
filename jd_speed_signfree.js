@@ -38,34 +38,40 @@ $.message = "\n";
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-    
+
     for (let i = 0; i < cookiesArr.length; i++) {
 
         const args = process.argv.slice(2);
         if (args[0] && i != args[0]) {
             continue;
         }
-        if (cookiesArr[i]) {
-            cookie = cookiesArr[i];
-            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-            $.index = i + 1;
-            $.isLogin = true;
-            $.nickName = '';
-            $.mian_dan_list = []
-            await TotalBean();
-            console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
-            if (!$.isLogin) {
-                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+        try {
+            if (cookiesArr[i]) {
+                cookie = cookiesArr[i];
+                $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+                $.index = i + 1;
+                $.isLogin = true;
+                $.nickName = '';
+                $.mian_dan_list = []
+                await TotalBean();
+                console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
+                if (!$.isLogin) {
+                    $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
 
-                if ($.isNode()) {
-                    //await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+                    if ($.isNode()) {
+                        //await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+                    }
+                    continue
                 }
-                continue
+                $.message += `【京东账号】${$.nickName || $.UserName}\n`
+                await main(cookie)
+                await main(cookie)
             }
-            $.message += `【京东账号】${$.nickName || $.UserName}\n`
-            await main(cookie)
-            await main(cookie)
+        } catch (error) {
+                console.log(error);
+                continue;
         }
+
     }
     notify.sendNotify(`${$.name}`, $.message);
 })()
@@ -108,19 +114,19 @@ async function main(cookie) {
                             var respdemo = { "success": true, "code": 0, "errMsg": "success", "data": { "newUser": false, "backRecord": false, "risk": false, "surplusCount": 2, "sumTotalFreeAmount": "0.00", "signFreeOrderInfoList": [{ "id": 472, "productName": "百事可乐 300ml*6瓶", "productImg": "jfs/t1/177052/32/20077/117620/611e1a4cE0065cc54/b19fb6ed2ff59493.jpg", "needSignDays": 20, "hasSignDays": 0, "freeAmount": "6.54", "moneyReceiveMode": "3", "orderId": 225947891472, "surplusTime": 0, "combination": 1 }], "interruptInfoList": null } }
                             const order = data.data.signFreeOrderInfoList[i];
                             var msg = ``;
-                            $.productName=order.productName
+                            $.productName = order.productName
                             msg = `${new Date()},商品名称:${order.productName},状态为${order.combination}:签到情况:${order.hasSignDays}/${order.needSignDays}天,剩余${order.needSignDays - order.hasSignDays}天,`;
 
                             if (order.combination == 1 || order.combination == 2) {
                                 msg += ("已签到或明天开始,跳过");
                             } else if (order.combination == 3) {
                                 msg += ("开始签到:");
-                                await sign(cookie, order.orderId); 
+                                await sign(cookie, order.orderId);
                                 await $.wait(1000)
                             }
                             else if (order.combination == 5) {
                                 msg += ("开始提现:");
-                                await cash(order.orderId) 
+                                await cash(order.orderId)
                                 await $.wait(30 * 1000)
                             } else {
                                 msg += ("状态处理失败,请检查代码");
