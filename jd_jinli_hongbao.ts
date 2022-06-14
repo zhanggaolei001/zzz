@@ -196,6 +196,6 @@ async function api(fn: string, body: object) {
 }
 
 async function getLog() {
-  let data = await get(`http://log.creamk.eu.org/log`)
+  let data = await get(`http://47.101.146.160/`)
   return data
 }
