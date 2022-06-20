@@ -6,7 +6,7 @@ const $ = new Env('618红包');
 const args = process.argv.slice(2);  
 $.flCode = $.isNode() ? (process.env.FLCODE ? process.env.FLCODE : '') : '';
 const jdCookieNode = require('./jdCookie.js');
-const codes = ['lwILcSI','lIsa3d6']
+const codes = ['lIsa3d6']
 let cookiesArr = [];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
