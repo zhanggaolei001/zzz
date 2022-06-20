@@ -68,8 +68,7 @@ $.message = "\n";
                 await main(cookie)
             }
         } catch (error) {
-                console.log(error);
-                continue;
+                console.log(error); 
         }
 
     }
