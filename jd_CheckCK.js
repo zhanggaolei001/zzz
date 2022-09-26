@@ -88,6 +88,7 @@ let QYWX_KEY_Check = '';
 if (process.env.QYWX_KEY_Check) {
     QYWX_KEY_Check = process.env.QYWX_KEY_Check;
 }
+const timeout = 15000;//超时时间(单位毫秒)
 function qywxBotNotify(text, desp) {
     return new Promise(resolve => {
         const options = {
