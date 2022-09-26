@@ -104,7 +104,7 @@ function qywxBotNotify(text, desp) {
             },
             timeout
         };
-        if (QYWX_KEY) {
+        if (QYWX_KEY_Check) {
             $.post(options, (err, resp, data) => {
                 try {
                     if (err) {
